@@ -1,0 +1,19 @@
+version: "3"
+services:
+  sitl:
+    image: ardupilot:latest
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - .:/ardupilot
+    stdin_open: true
+    tty: true
+    network_mode: "host"
+    environment:
+      - DISPLAY=:0
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+volumes:
+  .:
