@@ -30,7 +30,8 @@ RUN apt-get update -qq \
     && apt-get install -y lsb-release \
     wget \
     nano \
-    gnupg
+    gnupg \
+    gdb
 
 RUN wget https://packages.osrfoundation.org/gazebo.gpg \
     -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
