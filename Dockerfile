@@ -12,7 +12,10 @@ RUN apt-get update -qq \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends -y \
     tmux \
-    python3-pip
+    python3-pip \
+    gdb \
+    nano \
+    gnupg
 
 ## Install Gazebo 11
 # RUN apt-get install aptitude -y \
@@ -26,21 +29,20 @@ RUN apt-get update -qq \
 #     libgstreamer1.0-dev
 
 ## Install Gazebo Harmonic
-RUN apt-get update -qq \
-    && apt-get install -y lsb-release \
-    wget \
-    nano \
-    gnupg \
-    gdb
+# RUN apt-get update -qq \
+#     && apt-get install -y lsb-release \
+#     wget \
+#     nano \
+#     gnupg
 
-RUN wget https://packages.osrfoundation.org/gazebo.gpg \
-    -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
-    && echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] \
-    http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
-    | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
-    && apt-get update -qq \
-    && apt-get install -y gz-harmonic
+# RUN wget https://packages.osrfoundation.org/gazebo.gpg \
+#     -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+#     && echo \
+#     "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] \
+#     http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
+#     | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
+#     && apt-get update -qq \
+#     && apt-get install -y gz-harmonic
 
 ## Clone and build Ardupilot Gazebo plugin
 # RUN git clone https://github.com/khancyr/ardupilot_gazebo
@@ -56,18 +58,18 @@ RUN wget https://packages.osrfoundation.org/gazebo.gpg \
 # RUN echo 'export GAZEBO_RESOURCE_PATH=~/ardupilot_gazebo/worlds:${GAZEBO_RESOURCE_PATH}' >> ~/.bashrc
 
 ## Install Ardupilot Gazebo plugin
-RUN apt-get update -qq \
-    && apt install -y libgz-sim8-dev rapidjson-dev
+# RUN apt-get update -qq \
+#     && apt install -y libgz-sim8-dev rapidjson-dev
 
-RUN export GZ_VERSION=harmonic \
-    && git clone https://github.com/ArduPilot/ardupilot_gazebo \
-    && cd /ardupilot_gazebo \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    && make -j4
+# RUN export GZ_VERSION=harmonic \
+#     && git clone https://github.com/ArduPilot/ardupilot_gazebo \
+#     && cd /ardupilot_gazebo \
+#     && mkdir build && cd build \
+#     && cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+#     && make -j4
 
-ENV GZ_SIM_SYSTEM_PLUGIN_PATH=/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}
-ENV GZ_SIM_RESOURCE_PATH=/ardupilot_gazebo/models:/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}
+# ENV GZ_SIM_SYSTEM_PLUGIN_PATH=/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}
+# ENV GZ_SIM_RESOURCE_PATH=/ardupilot_gazebo/models:/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}
 
 ## Install Ardupilot Toolchain
 COPY Tools/environment_install/install-prereqs-ubuntu.sh /ardupilot/Tools/environment_install/
