@@ -1,0 +1,24 @@
+version: "3"
+services:
+  sitl:
+    image: ardupilot:latest
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /tmp/.docker.xauth:/tmp/.docker.xauth
+      - .:/ardupilot
+    network_mode: "host"
+    environment:
+      - DISPLAY=:0
+      - XAUTHORITY=/run/user/1000/gdm/Xauthority
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  .:
