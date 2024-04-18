@@ -713,6 +713,9 @@ void AP_TECS::_update_throttle_with_airspeed(void)
     // If underspeed condition is set, then demand full throttle
     if (_flags.underspeed) {
         _throttle_dem = 1.0f;
+    } else if (aparm.force_throttle) {
+        _throttle_dem = aparm.throttle_cruise;
+        _integTHR_state = 0.0f;
     } else if (_flags.is_gliding) {
         _throttle_dem = 0.0f;
     } else {
