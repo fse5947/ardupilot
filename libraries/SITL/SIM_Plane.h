@@ -121,16 +121,16 @@ protected:
         float c_m_0 = 0.0246;
         float c_m_a = -1.44;
         float c_m_q = -20;
-        float c_m_deltae = 0.6;
+        float c_m_deltae = 1.0;
         float c_n_0 = 0;
         float c_n_b = 0.1;
         float c_n_p = 0.01;
         float c_n_r = -0.5;
         float c_n_deltaa = 0.00;
         float c_n_deltar = 0.05;
-        float deltaa_max = 0.3491;
-        float deltae_max = 0.3491;
-        float deltar_max = 0.3491;
+        float deltaa_max = 0.5236;
+        float deltae_max = 0.5236;
+        float deltar_max = 0.5236;
         // the X CoG offset should be -0.02, but that makes the plane too tail heavy
         // in manual flight. Adjusted to -0.15 gives reasonable flight
         Vector3f CGOffset{-0.15, 0, 0.00};
