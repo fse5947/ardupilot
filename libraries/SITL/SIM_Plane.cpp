@@ -23,6 +23,8 @@
 
 #include <stdio.h>
 
+#include <iostream>
+
 using namespace SITL;
 
 Plane::Plane(const char *frame_str) :
@@ -362,18 +364,36 @@ void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel
     
     // simulate engine RPM
     motor_mask |= (1U<<2);
-    rpm[2] = thrust * 7000;
+    rpm[2] = thrust * 11000;
     
     // scale thrust to newtons
-    thrust *= thrust_scale;
+    // thrust *= thrust_scale;
+    float J = 0.0;
+    if (rpm[2] > 0.0) {
+        J =  airspeed / ((rpm[2] / 60.0) * coefficient.prop_diameter);
+    }
+
+    float CT = 0.0;
+    float CP = 0.0;
+    for (int i=0; i < PROPPOLYDEGREE; i++) {
+        CT += coefficient.thrust_coefficients[i] * pow(J,i);
+        CP += coefficient.power_coefficients_[i] * pow(J,i);
+    }
+
+    thrust = CT * air_density * pow((rpm[2] / 60.0),2.0) * pow(coefficient.prop_diameter,4.0);
+    // propeller_power = CP * air_density * pow(rpm,3.0) * pow(coefficient.prop_diameter,5.0);
+
+    // double torque = propeller_power / std::abs(rpm);
+
+    // power_= propeller_power / efficiency_;
 
     accel_body = Vector3f(thrust, 0, 0) + force;
     accel_body /= mass;
 
     // add some noise
-    if (thrust_scale > 0) {
-        add_noise(fabsf(thrust) / thrust_scale);
-    }
+    // if (thrust_scale > 0) {
+    //     add_noise(fabsf(thrust) / thrust_scale);
+    // }
 
     if (on_ground() && !tailsitter) {
         // add some ground friction

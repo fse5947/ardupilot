@@ -24,6 +24,8 @@
 
 namespace SITL {
 
+#define PROPPOLYDEGREE 5
+
 /*
   a very simple plane simulator
  */
@@ -96,6 +98,7 @@ protected:
         float s = 0.5;
         float b = 2.8;
         float c = 0.191;
+        float prop_diameter = 0.3048;
         float c_lift_0 = 0.26;
         float c_lift_deltae = 0;
         float c_lift_a = 5.55;
@@ -131,6 +134,8 @@ protected:
         float deltaa_max = 0.5236;
         float deltae_max = 0.5236;
         float deltar_max = 0.5236;
+        float thrust_coefficients[PROPPOLYDEGREE] = {0.08116999, -0.00881228, -0.45067274,  0.66716955, -0.48879649};
+        float power_coefficients_[PROPPOLYDEGREE] = {0.0272497,   0.00094377,  0.02054292, -0.19810229,  0.09776618};
         // the X CoG offset should be -0.02, but that makes the plane too tail heavy
         // in manual flight. Adjusted to -0.15 gives reasonable flight
         Vector3f CGOffset{-0.15, 0, 0.00};
