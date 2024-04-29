@@ -573,6 +573,12 @@ void Plane::update_alt()
             tecs_target_alt_cm = MAX(tecs_target_alt_cm, prev_WP_loc.alt - home.alt) + (g2.rtl_climb_min+10)*100;
         }
 
+        if (TECS_controller.is_gliding() && relative_altitude <= aparm.min_alt) {
+            TECS_controller.set_gliding_requested_flag(false);
+            aparm.force_throttle.set(0);
+            aparm.throttle_cruise.set(THROTTLE_CRUISE);
+        }
+
         TECS_controller.update_pitch_throttle(tecs_target_alt_cm,
                                                  target_airspeed_cm,
                                                  flight_stage,

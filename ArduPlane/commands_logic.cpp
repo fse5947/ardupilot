@@ -964,6 +964,7 @@ bool Plane::do_change_speed(const AP_Mission::Mission_Command& cmd)
         if (cmd.content.speed.force_throttle){
             TECS_controller.set_gliding_requested_flag(true);
             aparm.force_throttle.set(cmd.content.speed.force_throttle);
+            aparm.min_alt.set(cmd.content.speed.alt_min);
         }
         else {
             TECS_controller.set_gliding_requested_flag(false);

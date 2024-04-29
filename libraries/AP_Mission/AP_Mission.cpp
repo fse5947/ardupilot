@@ -1109,6 +1109,7 @@ MAV_MISSION_RESULT AP_Mission::mavlink_int_to_mission_cmd(const mavlink_mission_
         cmd.content.speed.target_ms = packet.param2;    // target speed in m/s
         cmd.content.speed.throttle_pct = packet.param3; // throttle as a percentage from 1 ~ 100%
         cmd.content.speed.force_throttle = packet.param4; // 0 = default behavior, 1 = force commanded throttle
+        cmd.content.speed.alt_min = packet.z;           // minimum altitude to disable forced throttle
         break;
 
     case MAV_CMD_DO_SET_HOME:
@@ -1478,6 +1479,7 @@ MAV_MISSION_RESULT AP_Mission::mavlink_cmd_long_to_mission_cmd(const mavlink_com
     miss_item.param2 = packet.param2;
     miss_item.param3 = packet.param3;
     miss_item.param4 = packet.param4;
+    miss_item.z = packet.param7;
 
     miss_item.command = packet.command;
     miss_item.target_system = packet.target_system;

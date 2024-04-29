@@ -135,7 +135,8 @@ protected:
         float deltae_max = 0.5236;
         float deltar_max = 0.5236;
         float thrust_coefficients[PROPPOLYDEGREE] = {0.08116999, -0.00881228, -0.45067274,  0.66716955, -0.48879649};
-        float power_coefficients_[PROPPOLYDEGREE] = {0.0272497,   0.00094377,  0.02054292, -0.19810229,  0.09776618};
+        float power_coefficients[PROPPOLYDEGREE] = {0.0272497,   0.00094377,  0.02054292, -0.19810229,  0.09776618};
+        float maxJ = 0.594431;
         // the X CoG offset should be -0.02, but that makes the plane too tail heavy
         // in manual flight. Adjusted to -0.15 gives reasonable flight
         Vector3f CGOffset{-0.15, 0, 0.00};
