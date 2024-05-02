@@ -3,6 +3,9 @@
 
 Windfield::Windfield() { //const char* thermal_env_file
 
+    // thermal_file = new char[strlen(thermal_env_file) + 1]; // +1 for null terminator
+    // strcpy(thermal_file, thermal_env_file);
+
     Py_Initialize();
 
     PyObject *sys_path = PySys_GetObject("path");
@@ -24,7 +27,7 @@ Windfield::Windfield() { //const char* thermal_env_file
 
     PyObject *args = PyTuple_New(0);
     PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", "/autosoar/src/kinematic_simulator/config/wind_fields/12.00h_AE_H_instance0_v1.0.json");
-    PyObject* wind_field = PyObject_Call(determ_wind_class, args, kwargs);
+    wind_field = PyObject_Call(determ_wind_class, args, kwargs);
 
     if (wind_field == NULL) {
         PyErr_Print();
@@ -81,4 +84,25 @@ PyObject* Windfield::vectorToList_Float(const std::vector<float> &data) {
 	return listObj;
 }
 
-// std::vector<float> Windfield::get_updraft_from_windfield()
+void Windfield::update_time(float time_now_s){
+    
+    PyObject* wind_update_time = PyObject_CallMethod(wind_field, "update_time", "f", time_now_s);
+
+    if (wind_update_time == NULL) {
+        PyErr_Print();
+        std::exit(1);
+    }
+}
+
+std::vector<float> Windfield::get_updraft(const std::vector<float> &current_position) {
+
+    PyObject* wind = PyObject_CallMethod(wind_field, "get_wind_as_list", "[f,f,f]", current_position[0], current_position[1], current_position[2]);
+
+        if (wind == NULL) {
+            PyErr_Print();
+            std::exit(1);
+        }
+
+    std::vector<float> wind_out = listTupleToVector_Float(wind);
+    return wind_out;
+}

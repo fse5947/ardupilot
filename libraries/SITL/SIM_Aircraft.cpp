@@ -770,7 +770,8 @@ void Aircraft::update_wind(const struct sitl_input &input)
                        sinf(radians(input.wind.direction))*cosf(radians(input.wind.dir_z)), 
                        sinf(radians(input.wind.dir_z))) * input.wind.speed;
 
-    wind_ef.z += get_local_updraft(position + home.get_distance_NED_double(origin));
+    // wind_ef.z += get_local_updraft(position + home.get_distance_NED_double(origin));
+    wind_ef.z += get_windfield_updraft(position + home.get_distance_NED_double(origin));
 
     const float wind_turb = input.wind.turbulence * 10.0f;  // scale input.wind.turbulence to match standard deviation when using iir_coef=0.98
     const float iir_coef = 0.98f;  // filtering high frequencies from turbulence
@@ -1099,6 +1100,15 @@ float Aircraft::get_local_updraft(const Vector3d &currentPos)
     }
 
     return w;
+}
+
+float Aircraft::get_windfield_updraft(const Vector3d &currentPos) {
+    // Update windfield time
+    windfield.update_time((float)time_now_us/1e6);
+
+    // Get updraft at aircraft position
+    std::vector<float> wind_vector = windfield.get_updraft(std::vector<float>{(float)currentPos[0], (float)currentPos[1], (float)currentPos[2]});
+    return wind_vector[2];
 }
 
 void Aircraft::add_twist_forces(Vector3f &rot_accel)

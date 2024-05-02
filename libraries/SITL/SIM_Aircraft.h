@@ -305,6 +305,9 @@ protected:
     // get local thermal updraft
     float get_local_updraft(const Vector3d &currentPos);
 
+    // get updraft from wind field
+    float get_windfield_updraft(const Vector3d &currentPos);
+
 private:
     uint64_t last_time_us;
     uint32_t frame_counter;
