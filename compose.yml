@@ -5,6 +5,9 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /tmp/.docker.xauth:/tmp/.docker.xauth
       - .:/ardupilot
+      - /home/fares/shearwater/autosoar:/autosoar
+      # - /home/fares/shearwater/autosoar/src/kinematic_simulator/kinematic_simulator/utils:/kinematic_simulator/utils
+      # - /home/fares/shearwater/autosoar/src/robots_common/robots_common/geodesy:/robots_common/geodesy
     network_mode: "host"
     environment:
       - DISPLAY=:0
