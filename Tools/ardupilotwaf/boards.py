@@ -633,6 +633,10 @@ class sitl(Board):
             '-Werror=float-equal'
         ]
 
+        env.CXXFLAGS += ['-I/usr/include/python3.10']
+
+        env.LDFLAGS += ['-lpython3.10']
+
         if cfg.options.ubsan or cfg.options.ubsan_abort:
             env.CXXFLAGS += [
                 "-fsanitize=undefined",

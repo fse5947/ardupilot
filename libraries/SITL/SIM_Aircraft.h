@@ -36,6 +36,7 @@
 #include "SIM_Battery.h"
 #include <Filter/Filter.h>
 #include "SIM_JSON_Master.h"
+#include "SIM_Windfield.h"
 
 #ifndef USE_PICOJSON
 #define USE_PICOJSON (CONFIG_HAL_BOARD == HAL_BOARD_SITL || CONFIG_HAL_BOARD == HAL_BOARD_LINUX)
@@ -214,6 +215,8 @@ protected:
     Vector3f mag_bf;  // local earth magnetic field vector in Gauss, earth frame
 
     uint64_t time_now_us;
+
+    Windfield windfield;
 
     const float gyro_noise = radians(0.1f);
     const float accel_noise = 0.3f;
