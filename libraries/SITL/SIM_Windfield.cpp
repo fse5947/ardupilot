@@ -9,7 +9,7 @@ Windfield::Windfield() { //const char* thermal_env_file
     Py_Initialize();
 
     PyObject *sys_path = PySys_GetObject("path");
-    PyList_Append(sys_path, PyUnicode_FromString("/autosoar/src/kinematic_simulator/kinematic_simulator/utils"));
+    PyList_Append(sys_path, PyUnicode_FromString("/windfield/utils"));
     
     PyObject* wind_field_file = PyImport_ImportModule((char*)"wind_field");
 
@@ -26,7 +26,7 @@ Windfield::Windfield() { //const char* thermal_env_file
     }
 
     PyObject *args = PyTuple_New(0);
-    PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", "/autosoar/src/kinematic_simulator/config/wind_fields/12.00h_AE_H_instance0_v1.0.json");
+    PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", "/wind_fields/12.00h_AE_H_instance0_v1.0.json");
     wind_field = PyObject_Call(determ_wind_class, args, kwargs);
 
     if (wind_field == NULL) {
