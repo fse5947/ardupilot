@@ -26,7 +26,7 @@ Windfield::Windfield() { //const char* thermal_env_file
     }
 
     PyObject *args = PyTuple_New(0);
-    PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", "/wind_fields/12.00h_AE_H_instance0_v1.0.json");
+    PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", "/wind_fields/12.00h_AE_H_instance3_v1.0.json"); //empty.json
     wind_field = PyObject_Call(determ_wind_class, args, kwargs);
 
     if (wind_field == NULL) {

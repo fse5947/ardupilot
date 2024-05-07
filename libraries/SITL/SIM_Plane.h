@@ -96,19 +96,19 @@ protected:
         struct {
         // phoenix 2400
         float s = 0.5;
-        float b = 2.8;
+        float b = 2.4;
         float c = 0.191;
         float prop_diameter = 0.3048;
-        float c_lift_0 = 0.26;
+        float c_lift_0 = 0.23;
         float c_lift_deltae = 0;
-        float c_lift_a = 5.55;
+        float c_lift_a = 6.3;
         float c_lift_q = 0;
         float mcoeff = 50;
-        float oswald = 0.535;
+        float oswald = 0.63;
         float alpha_stall = 0.32;
         float c_drag_q = 0;
         float c_drag_deltae = 0.0;
-        float c_drag_p = 0.019;
+        float c_drag_p = 0.026;
         float c_y_0 = 0;
         float c_y_b = -0.00183;
         float c_y_p = 0;

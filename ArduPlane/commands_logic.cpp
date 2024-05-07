@@ -958,7 +958,7 @@ bool Plane::do_change_speed(const AP_Mission::Mission_Command& cmd)
         return true;
     }
 
-    if (cmd.content.speed.throttle_pct > 0 && cmd.content.speed.throttle_pct <= 100) {
+    if (cmd.content.speed.throttle_pct > -0.1f && cmd.content.speed.throttle_pct <= 100.0f) {
         gcs().send_text(MAV_SEVERITY_INFO, "Set throttle %u", (unsigned)cmd.content.speed.throttle_pct);
         aparm.throttle_cruise.set(cmd.content.speed.throttle_pct);
         if (cmd.content.speed.force_throttle){
