@@ -1624,6 +1624,8 @@ bool AP_Mission::mission_cmd_to_mavlink_int(const AP_Mission::Mission_Command& c
         packet.param1 = cmd.content.speed.speed_type;   // 0 = airspeed, 1 = ground speed
         packet.param2 = cmd.content.speed.target_ms;    // speed in m/s
         packet.param3 = cmd.content.speed.throttle_pct; // throttle as a percentage from 1 ~ 100%
+        packet.param4 = cmd.content.speed.force_throttle;
+        packet.z = cmd.content.speed.alt_min;
         break;
 
     case MAV_CMD_DO_SET_HOME:                           // MAV ID: 179

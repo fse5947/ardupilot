@@ -971,6 +971,11 @@ bool Plane::do_change_speed(const AP_Mission::Mission_Command& cmd)
             aparm.force_throttle.set(cmd.content.speed.force_throttle);
         }
         return true;
+    } else if (cmd.content.speed.throttle_pct < -0.1f) {
+        gcs().send_text(MAV_SEVERITY_INFO, "Reset throttle");
+        aparm.throttle_cruise.set(THROTTLE_CRUISE);
+        TECS_controller.set_gliding_requested_flag(false);
+        aparm.force_throttle.set(0);
     }
 
     return false;
