@@ -122,6 +122,10 @@ public:
         _flags.gliding_requested = gliding_requested;
     }
 
+    bool is_gliding() {
+        return _flags.is_gliding;
+    }
+
     // set propulsion failed flag
     void set_propulsion_failed_flag(bool propulsion_failed) {
         _flags.propulsion_failed = propulsion_failed;

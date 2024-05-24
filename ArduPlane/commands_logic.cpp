@@ -958,10 +958,24 @@ bool Plane::do_change_speed(const AP_Mission::Mission_Command& cmd)
         return true;
     }
 
-    if (cmd.content.speed.throttle_pct > 0 && cmd.content.speed.throttle_pct <= 100) {
+    if (cmd.content.speed.throttle_pct > -0.1f && cmd.content.speed.throttle_pct <= 100.0f) {
         gcs().send_text(MAV_SEVERITY_INFO, "Set throttle %u", (unsigned)cmd.content.speed.throttle_pct);
         aparm.throttle_cruise.set(cmd.content.speed.throttle_pct);
+        if (cmd.content.speed.force_throttle){
+            TECS_controller.set_gliding_requested_flag(true);
+            aparm.force_throttle.set(cmd.content.speed.force_throttle);
+            aparm.min_alt.set(cmd.content.speed.alt_min);
+        }
+        else {
+            TECS_controller.set_gliding_requested_flag(false);
+            aparm.force_throttle.set(cmd.content.speed.force_throttle);
+        }
         return true;
+    } else if (cmd.content.speed.throttle_pct < -0.1f) {
+        gcs().send_text(MAV_SEVERITY_INFO, "Reset throttle");
+        aparm.throttle_cruise.set(THROTTLE_CRUISE);
+        TECS_controller.set_gliding_requested_flag(false);
+        aparm.force_throttle.set(0);
     }
 
     return false;

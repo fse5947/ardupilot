@@ -1,4 +1,6 @@
 {
     "cSpell.language": "en-GB",
     "astyle.astylerc": "${workspaceFolder}/Tools/CodeStyle/astylerc"
+    "C_Cpp.dimInactiveRegions": false
+
 }

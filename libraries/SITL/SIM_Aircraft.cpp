@@ -770,28 +770,29 @@ void Aircraft::update_wind(const struct sitl_input &input)
                        sinf(radians(input.wind.direction))*cosf(radians(input.wind.dir_z)), 
                        sinf(radians(input.wind.dir_z))) * input.wind.speed;
 
-    wind_ef.z += get_local_updraft(position + home.get_distance_NED_double(origin));
+    // wind_ef.z += get_local_updraft(position + home.get_distance_NED_double(origin));
+    wind_ef.z += get_windfield_updraft(position + home.get_distance_NED_double(origin));
 
-    const float wind_turb = input.wind.turbulence * 10.0f;  // scale input.wind.turbulence to match standard deviation when using iir_coef=0.98
-    const float iir_coef = 0.98f;  // filtering high frequencies from turbulence
+    // const float wind_turb = input.wind.turbulence * 10.0f;  // scale input.wind.turbulence to match standard deviation when using iir_coef=0.98
+    // const float iir_coef = 0.98f;  // filtering high frequencies from turbulence
 
-    if (wind_turb > 0 && !on_ground()) {
+    // if (wind_turb > 0 && !on_ground()) {
 
-        turbulence_azimuth = turbulence_azimuth + (2 * rand());
+    //     turbulence_azimuth = turbulence_azimuth + (2 * rand());
 
-        turbulence_horizontal_speed =
-                static_cast<float>(turbulence_horizontal_speed * iir_coef+wind_turb * rand_normal(0, 1) * (1 - iir_coef));
+    //     turbulence_horizontal_speed =
+    //             static_cast<float>(turbulence_horizontal_speed * iir_coef+wind_turb * rand_normal(0, 1) * (1 - iir_coef));
 
-        turbulence_vertical_speed = static_cast<float>((turbulence_vertical_speed * iir_coef) + (wind_turb * rand_normal(0, 1) * (1 - iir_coef)));
+    //     turbulence_vertical_speed = static_cast<float>((turbulence_vertical_speed * iir_coef) + (wind_turb * rand_normal(0, 1) * (1 - iir_coef)));
 
-        wind_ef += Vector3f(
-            cosf(radians(turbulence_azimuth)) * turbulence_horizontal_speed,
-            sinf(radians(turbulence_azimuth)) * turbulence_horizontal_speed,
-            turbulence_vertical_speed);
-    }
+    //     wind_ef += Vector3f(
+    //         cosf(radians(turbulence_azimuth)) * turbulence_horizontal_speed,
+    //         sinf(radians(turbulence_azimuth)) * turbulence_horizontal_speed,
+    //         turbulence_vertical_speed);
+    // }
 
     // the AHRS wants wind with opposite sense
-    wind_ef = -wind_ef;
+    // wind_ef = -wind_ef;
 }
 
 /*
@@ -1099,6 +1100,15 @@ float Aircraft::get_local_updraft(const Vector3d &currentPos)
     }
 
     return w;
+}
+
+float Aircraft::get_windfield_updraft(const Vector3d &currentPos) {
+    // Update windfield time
+    windfield.update_time((float)time_now_us/1e6);
+
+    // Get updraft at aircraft position
+    std::vector<float> wind_vector = windfield.get_updraft(std::vector<float>{(float)currentPos[0], (float)currentPos[1], (float)currentPos[2]});
+    return wind_vector[2];
 }
 
 void Aircraft::add_twist_forces(Vector3f &rot_accel)

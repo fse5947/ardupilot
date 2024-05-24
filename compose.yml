@@ -1,4 +1,3 @@
-version: "3"
 services:
   sitl:
     image: ardupilot:latest
@@ -6,6 +5,8 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /tmp/.docker.xauth:/tmp/.docker.xauth
       - .:/ardupilot
+      - /home/fares/shearwater/autosoar/src/windfield/windfield:/windfield
+      - /home/fares/shearwater/autosoar/src/windfield/config/wind_fields:/wind_fields
     network_mode: "host"
     environment:
       - DISPLAY=:0

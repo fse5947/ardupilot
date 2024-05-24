@@ -24,6 +24,8 @@
 
 namespace SITL {
 
+#define PROPPOLYDEGREE 5
+
 /*
   a very simple plane simulator
  */
@@ -45,50 +47,99 @@ protected:
     float angle_of_attack;
     float beta;
 
-    struct {
-        // from last_letter skywalker_2013/aerodynamics.yaml
-        // thanks to Georacer!
-        float s = 0.45;
-        float b = 1.88;
-        float c = 0.24;
-        float c_lift_0 = 0.56;
+    // struct {
+    //     // from last_letter skywalker_2013/aerodynamics.yaml
+    //     // thanks to Georacer!
+    //     float s = 0.45;
+    //     float b = 1.88;
+    //     float c = 0.24;
+    //     float c_lift_0 = 0.56;
+    //     float c_lift_deltae = 0;
+    //     float c_lift_a = 6.9;
+    //     float c_lift_q = 0;
+    //     float mcoeff = 50;
+    //     float oswald = 0.9;
+    //     float alpha_stall = 0.4712;
+    //     float c_drag_q = 0;
+    //     float c_drag_deltae = 0.0;
+    //     float c_drag_p = 0.1;
+    //     float c_y_0 = 0;
+    //     float c_y_b = -0.98;
+    //     float c_y_p = 0;
+    //     float c_y_r = 0;
+    //     float c_y_deltaa = 0;
+    //     float c_y_deltar = -0.2;
+    //     float c_l_0 = 0;
+    //     float c_l_p = -1.0;
+    //     float c_l_b = -0.12;
+    //     float c_l_r = 0.14;
+    //     float c_l_deltaa = 0.25;
+    //     float c_l_deltar = -0.037;
+    //     float c_m_0 = 0.045;
+    //     float c_m_a = -0.7;
+    //     float c_m_q = -20;
+    //     float c_m_deltae = 1.0;
+    //     float c_n_0 = 0;
+    //     float c_n_b = 0.25;
+    //     float c_n_p = 0.022;
+    //     float c_n_r = -1;
+    //     float c_n_deltaa = 0.00;
+    //     float c_n_deltar = 0.1;
+    //     float deltaa_max = 0.3491;
+    //     float deltae_max = 0.3491;
+    //     float deltar_max = 0.3491;
+    //     // the X CoG offset should be -0.02, but that makes the plane too tail heavy
+    //     // in manual flight. Adjusted to -0.15 gives reasonable flight
+    //     Vector3f CGOffset{-0.15, 0, -0.05};
+    // } coefficient;
+
+        struct {
+        // phoenix 2400
+        float s = 0.5;
+        float b = 2.4;
+        float c = 0.191;
+        float prop_diameter = 0.3048;
+        float c_lift_0 = 0.23;
         float c_lift_deltae = 0;
-        float c_lift_a = 6.9;
+        float c_lift_a = 6.3;
         float c_lift_q = 0;
         float mcoeff = 50;
-        float oswald = 0.9;
-        float alpha_stall = 0.4712;
+        float oswald = 0.63;
+        float alpha_stall = 0.32;
         float c_drag_q = 0;
         float c_drag_deltae = 0.0;
-        float c_drag_p = 0.1;
+        float c_drag_p = 0.026;
         float c_y_0 = 0;
-        float c_y_b = -0.98;
+        float c_y_b = -0.00183;
         float c_y_p = 0;
         float c_y_r = 0;
         float c_y_deltaa = 0;
-        float c_y_deltar = -0.2;
+        float c_y_deltar = -0.1;
         float c_l_0 = 0;
-        float c_l_p = -1.0;
-        float c_l_b = -0.12;
-        float c_l_r = 0.14;
-        float c_l_deltaa = 0.25;
-        float c_l_deltar = -0.037;
-        float c_m_0 = 0.045;
-        float c_m_a = -0.7;
+        float c_l_p = -.5;
+        float c_l_b = -0.0;
+        float c_l_r = 0.0;
+        float c_l_deltaa = 0.11;
+        float c_l_deltar = -0.04;
+        float c_m_0 = 0.0246;
+        float c_m_a = -1.44;
         float c_m_q = -20;
         float c_m_deltae = 1.0;
         float c_n_0 = 0;
-        float c_n_b = 0.25;
-        float c_n_p = 0.022;
-        float c_n_r = -1;
+        float c_n_b = 0.1;
+        float c_n_p = 0.01;
+        float c_n_r = -0.5;
         float c_n_deltaa = 0.00;
-        float c_n_deltar = 0.1;
-        float deltaa_max = 0.3491;
-        float deltae_max = 0.3491;
-        float deltar_max = 0.3491;
+        float c_n_deltar = 0.05;
+        float deltaa_max = 0.5236;
+        float deltae_max = 0.5236;
+        float deltar_max = 0.5236;
+        float thrust_coefficients[PROPPOLYDEGREE] = {0.08116999, -0.00881228, -0.45067274,  0.66716955, -0.48879649};
+        float power_coefficients[PROPPOLYDEGREE] = {0.0272497,   0.00094377,  0.02054292, -0.19810229,  0.09776618};
+        float maxJ = 0.594431;
         // the X CoG offset should be -0.02, but that makes the plane too tail heavy
         // in manual flight. Adjusted to -0.15 gives reasonable flight
-        Vector3f CGOffset{-0.15, 0, -0.05};
+        Vector3f CGOffset{-0.15, 0, 0.00};
     } coefficient;
 
     float thrust_scale;

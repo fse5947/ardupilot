@@ -95,6 +95,8 @@ public:
         uint8_t speed_type;     // 0=airspeed, 1=ground speed
         float target_ms;        // target speed in m/s, -1 means no change
         float throttle_pct;     // throttle as a percentage (i.e. 1 ~ 100), 0 means no change
+        uint8_t force_throttle; // Forces throttle command to be passed to Plane
+        float alt_min;          // Minimum altittude when throttle is forced to below cruise
     };
 
     // set relay command structure

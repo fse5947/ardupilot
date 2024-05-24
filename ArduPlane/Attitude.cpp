@@ -452,6 +452,12 @@ void Plane::calc_throttle()
         return;
     }
 
+    else if (aparm.force_throttle) {
+        // Force throttle setting from Mavlink do_change_speed command
+        SRV_Channels::set_output_scaled(SRV_Channel::k_throttle, aparm.throttle_cruise);
+        return;
+    }
+
     float commanded_throttle = TECS_controller.get_throttle_demand();
 
     // Received an external msg that guides throttle in the last 3 seconds?
