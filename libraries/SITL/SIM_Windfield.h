@@ -8,7 +8,7 @@
 
 class Windfield {
 public:
-    // Windfield(const char* thermal_env_file);
+
     Windfield(const char* filename);
 
     ~Windfield() {Py_Finalize();}
@@ -24,7 +24,5 @@ private:
     const char* wind_field_filename;
 
     PyObject* wind_field;
-
-    // const char* thermal_file;
 
 };

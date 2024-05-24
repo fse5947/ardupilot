@@ -51,12 +51,14 @@ extern const AP_HAL::HAL& hal;
  */
 
 Aircraft::Aircraft(const char *frame_str) :
-    frame(frame_str)
+    frame(frame_str), windfield("/wind_fields/empty.json")
 {
     // make the SIM_* variables available to simulator backends
     sitl = AP::sitl();
 
     set_speedup(1.0f);
+
+    // Windfield windfield("test");
 
     last_wall_time_us = get_wall_time_us();
 

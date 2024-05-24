@@ -1,10 +1,7 @@
 #include "SIM_Windfield.h"
 
 
-Windfield::Windfield(const char* filename) :  wind_field_filename(filename) { //const char* thermal_env_file
-
-    // thermal_file = new char[strlen(thermal_env_file) + 1]; // +1 for null terminator
-    // strcpy(thermal_file, thermal_env_file);
+Windfield::Windfield(const char* filename) :  wind_field_filename(filename) {
 
     Py_Initialize();
 
@@ -26,7 +23,7 @@ Windfield::Windfield(const char* filename) :  wind_field_filename(filename) { //
     }
 
     PyObject *args = PyTuple_New(0);
-    PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", "/wind_fields/12.00h_AE_H_instance3_v1.0.json"); //empty.json
+    PyObject *kwargs = Py_BuildValue("{s:s}", "thermal_env_file", filename); //empty.json
     wind_field = PyObject_Call(determ_wind_class, args, kwargs);
 
     if (wind_field == NULL) {
