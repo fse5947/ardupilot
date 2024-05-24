@@ -1,7 +1,7 @@
 #include "SIM_Windfield.h"
 
 
-Windfield::Windfield() { //const char* thermal_env_file
+Windfield::Windfield(const char* filename) :  wind_field_filename(filename) { //const char* thermal_env_file
 
     // thermal_file = new char[strlen(thermal_env_file) + 1]; // +1 for null terminator
     // strcpy(thermal_file, thermal_env_file);

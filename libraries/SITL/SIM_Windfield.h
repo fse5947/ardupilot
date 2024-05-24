@@ -9,7 +9,7 @@
 class Windfield {
 public:
     // Windfield(const char* thermal_env_file);
-    Windfield();
+    Windfield(const char* filename);
 
     ~Windfield() {Py_Finalize();}
 
@@ -20,6 +20,8 @@ public:
 private:
     std::vector<float> listTupleToVector_Float(PyObject* incoming);
     PyObject* vectorToList_Float(const std::vector<float> &data);
+
+    const char* wind_field_filename;
 
     PyObject* wind_field;
 
